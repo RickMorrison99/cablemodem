@@ -51,17 +51,8 @@ class XB6Driver(ModemDriver):
                 try:
                     r = self._session.post(f"{self._url}{ep}", data=payload, timeout=30)
                     r.raise_for_status()
-                    # a successful POST usually sets a session cookie. We'll attempt to fetch the
-                    # status page to confirm auth.
-                    try:
-                        t = self._session.get(f"{self._url}/network_setup.jst", timeout=15)
-                        if t.status_code == 200 and "Downstream" in t.text:
-                            log.info("XB6 auth OK via %s", ep)
-                            return
-                    except Exception:
-                        # continue to try other endpoints or retry
-                        log.debug("Auth POST succeeded but status page fetch failed (ep=%s)", ep)
-                        return
+                    log.info("XB6 auth OK via %s", ep)
+                    return
                 except requests.ConnectionError:
                     log.warning("XB6 connection lost when hitting %s", ep)
                     if attempt == 0:
