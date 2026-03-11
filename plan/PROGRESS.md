@@ -11,5 +11,6 @@ Next steps:
 - implement parsing unit tests using fixtures: done
 - expand unit tests: done
 - add edge-case fixtures and CI: done
+- add additional fixtures and coverage badge: done
 - integrate driver into collector pipeline and run CI
 - update CI to run fixture-based tests: done
