@@ -37,6 +37,11 @@ driver_registry.register_builtin("hitron", "app.drivers.hitron.HitronDriver",
 driver_registry.register_builtin("sagemcom", "app.drivers.sagemcom.SagemcomDriver",
                                  "Sagemcom F@st 3896",
                                  hints={"default_url": "http://192.168.100.1", "default_user": "admin"})
+# Technicolor XB6 (CGM4140COM) — scaffolded driver
+driver_registry.register_builtin("technicolor_xb6", "app.drivers.technicolor_xb6.XB6Driver",
+                                 "Technicolor XB6 (CGM4140COM)",
+                                 hints={"default_url": "https://10.0.0.1", "default_user": "admin"})
+
 driver_registry.register_builtin("generic", "app.drivers.generic.GenericDriver", "Generic Router (No DOCSIS)",
                                  hints={"credentials_required": False})
 
