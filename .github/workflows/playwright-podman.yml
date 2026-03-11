@@ -1,0 +1,41 @@
+name: Playwright E2E (Podman - self-hosted)
+
+on:
+  push:
+    paths:
+      - 'tests/e2e/**'
+      - 'podman-play.yml'
+      - 'requirements-playwright.txt'
+  pull_request:
+    paths:
+      - 'tests/e2e/**'
+      - 'podman-play.yml'
+      - 'requirements-playwright.txt'
+
+jobs:
+  e2e:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Podman
+        run: |
+          echo "Podman version:"
+          podman --version
+      - name: Build app image
+        run: podman build -t cablemodem:ci .
+      - name: Run pod
+        run: podman play kube podman-play.yml
+      - name: Collect logs and check exit codes
+        run: |
+          sleep 5
+          podman ps -a
+          podman logs --tail=200 $(podman ps -a --filter name=cablemodem-e2e -q || true) || true
+          exit_code=0
+          for c in $(podman ps -a --filter name=cablemodem-e2e -q || true); do
+            status=$(podman inspect -f '{{.State.ExitCode}}' $c)
+            if [ "$status" != "0" ]; then
+              exit_code=$status
+              break
+            fi
+          done
+          exit $exit_code
