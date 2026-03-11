@@ -20,13 +20,21 @@ jobs:
           python-version: "3.12"
           cache: pip
 
-      - name: Install dependencies
+      - name: Install test dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest
+          pip install pytest pytest-xdist pytest-cov codecov
 
-      - name: Run tests
-        run: python -m pytest -q tests/ --maxfail=1 --disable-warnings --tb=short --ignore=tests/e2e
+      - name: Run tests (parallel with coverage)
+        run: |
+          python -m pytest -n auto --maxfail=1 --disable-warnings --cov=app --cov-report=xml:coverage.xml --cov-report=term-missing tests/ --ignore=tests/e2e
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage.xml
+          fail_ci_if_error: true
 
   i18n:
     runs-on: ubuntu-latest
