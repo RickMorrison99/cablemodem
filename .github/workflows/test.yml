@@ -24,17 +24,19 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest pytest-xdist pytest-cov codecov
+          pip install pytest pytest-xdist pytest-cov
 
       - name: Run tests (parallel with coverage)
         run: |
-          python -m pytest -n auto --maxfail=1 --disable-warnings --cov=app --cov-report=xml:coverage.xml --cov-report=term-missing tests/ --ignore=tests/e2e
+          python -m pytest -n auto --maxfail=1 --disable-warnings --cov=app --cov-report=xml:coverage.xml --cov-report=html:htmlcov --cov-report=term-missing tests/ --ignore=tests/e2e
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
         with:
-          files: coverage.xml
-          fail_ci_if_error: true
+          name: coverage-reports
+          path: |
+            coverage.xml
+            htmlcov
 
   i18n:
     runs-on: ubuntu-latest
