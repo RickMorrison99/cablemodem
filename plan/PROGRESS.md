@@ -8,5 +8,5 @@ Status: in_progress
 - convert-integration-tests-to-fixtures: done
 
 Next steps:
-- implement parsing unit tests using fixtures
+- implement parsing unit tests using fixtures: done
 - integrate driver into collector pipeline and run CI
