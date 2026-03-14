@@ -20,13 +20,23 @@ jobs:
           python-version: "3.12"
           cache: pip
 
-      - name: Install dependencies
+      - name: Install test dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest
+          pip install pytest pytest-xdist pytest-cov
 
-      - name: Run tests
-        run: python -m pytest tests/ -v --tb=short --ignore=tests/e2e
+      - name: Run tests (parallel with coverage)
+        run: |
+          python -m pytest -n auto --maxfail=1 --disable-warnings --cov=app --cov-report=xml:coverage.xml --cov-report=html:htmlcov --cov-report=term-missing tests/ --ignore=tests/e2e
+
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            coverage.xml
+            htmlcov
 
   i18n:
     runs-on: ubuntu-latest

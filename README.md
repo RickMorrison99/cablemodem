@@ -11,6 +11,7 @@
   <a href="https://paypal.me/itsDNNS"><img src="https://img.shields.io/badge/Donate-PayPal-00457C?logo=paypal&logoColor=white" alt="PayPal"></a>
   <a href="https://github.com/itsDNNS/docsight/stargazers"><img src="https://img.shields.io/github/stars/itsDNNS/docsight?style=flat" alt="Stars"></a>
   <a href="https://selfh.st/weekly/2026-02-27/"><img src="https://img.shields.io/badge/selfh.st-Featured-blue" alt="Featured in selfh.st Weekly"></a>
+  <a href="https://codecov.io/gh/RickMorrison99/cablemodem"><img src="https://codecov.io/gh/RickMorrison99/cablemodem/branch/main/graph/badge.svg" alt="Coverage"></a>
 </p>
 
 <p align="center">
