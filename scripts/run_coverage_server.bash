@@ -14,7 +14,8 @@ fi
 if command -v docker >/dev/null 2>&1; then
   docker run --rm -p "${PORT}:${PORT}" -v "$(realpath "${COV_DIR}")":/srv -w /srv python:3.11-slim python -m http.server "${PORT}"
 elif command -v podman >/dev/null 2>&1; then
-  podman run --rm -p "${PORT}:${PORT}" -v "$(realpath "${COV_DIR}")":/srv -w /srv docker.io/library/python:3.11-slim python -m http.server "${PORT}"
+  # For SELinux-enabled hosts (podman), add :z to the bind mount so the container can read and list files
+  podman run --rm -p "${PORT}:${PORT}" -v "$(realpath "${COV_DIR}")":/srv:z -w /srv docker.io/library/python:3.11-slim python -m http.server "${PORT}"
 else
   echo "Docker/Podman not found; serving locally with python -m http.server"
   (cd "${COV_DIR}" && python -m http.server "${PORT}")
